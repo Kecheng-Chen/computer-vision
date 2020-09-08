@@ -1,5 +1,6 @@
 % CS194-26 (cs219-26): Project 1, starter Matlab code
 % Kecheng Chen
+% start
 clear;clc;
 % name of the input file
 imname = 'icon.tif';
@@ -7,7 +8,7 @@ imname = 'icon.tif';
 % read in the image
 fullim = imread(imname);
 [a,b]=size(fullim);
-%%
+
 % convert to double matrix (might want to do this later on to same memory)
 fullim = im2double(fullim);
 
@@ -26,11 +27,13 @@ bottom=r-top;
 B_org0=B_org0(top:bottom,left:right);
 G_org0=G_org0(top:bottom,left:right);
 R_org0=R_org0(top:bottom,left:right);
+% contrast balance
 B_org=rescale(B_org0);
 G_org=rescale(G_org0);
 R_org=rescale(R_org0);
 % figure;
 % imhist(G_org)
+% contrast enhancement
 G_org=histeq(G_org,imhist(B_org));
 R_org=histeq(R_org,imhist(B_org));
 % figure;
@@ -159,7 +162,8 @@ end
 
 toc
 % open figure
-%% figure(1);
+%% show the output
+%figure(1);
 
 % create a color image (3D array)
 % ... use the "cat" command
@@ -168,7 +172,7 @@ tdarray=cat(3,cat(3,circshift(R_org,displacement(2,:)),(circshift(G_org,displace
 % ... use the "imshow" command
 % save result image
 imshow(tdarray);
-%%
+%% save images
 imwrite(tdarray,'V Ital?i.jpg');
 %% 
 imwrite(edge(B_org0,'canny'),'edge1.jpg');
