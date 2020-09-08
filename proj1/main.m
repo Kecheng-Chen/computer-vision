@@ -2,7 +2,7 @@
 % Kecheng Chen
 clear;clc;
 % name of the input file
-imname = 'V Ital?i.tif';
+imname = 'icon.tif';
 
 % read in the image
 fullim = imread(imname);
@@ -98,8 +98,8 @@ for k=1:pynum
     mean_B=mean(B,'all');
     mean_G=mean(G,'all');
     mean_R=mean(R,'all');
-    max1=2;
-    max2=2;
+    max1=-2;
+    max2=-2;
 %     max1=sum((B-mean_B).*(G-mean_G),'all')/...
 %                  sqrt(sum(((B-mean_B).^2),'all').*sum((G-mean_G).^2,'all'));
 %     max2=sum((B-mean_B).*(R-mean_R),'all')/...
@@ -126,23 +126,23 @@ for k=1:pynum
 %             score1=sum((B-circshift(G,[i,j])).^2,'all')/(n(1)*n(2));
 %             score2=sum((B-circshift(R,[i,j])).^2,'all')/(n(1)*n(2));
 
-            score1=(sum((edge(B,'canny')-edge(circshift(G,[i,j]),'canny')).^2,'all'))/(n(1)*n(2));
-            score2=(sum((edge(B,'canny')-edge(circshift(R,[i,j]),'canny')).^2,'all'))/(n(1)*n(2));
+%             score1=(sum((edge(B,'canny')-edge(circshift(G,[i,j]),'canny')).^2,'all'))/(n(1)*n(2));
+%             score2=(sum((edge(B,'canny')-edge(circshift(R,[i,j]),'canny')).^2,'all'))/(n(1)*n(2));
 
 %             Gmag_G = Prewitt_edge(circshift(G,[i,j]));
 %             Gmag_R = Prewitt_edge(circshift(R,[i,j]));
 %             score1=sum((Gmag_B-Gmag_G).^2,'all')/(n(1)*n(2));
 %             score2=sum((Gmag_B-Gmag_R).^2,'all')/(n(1)*n(2));
             
-%             score1=sum((B-mean_B).*(circshift(G,[i,j])-mean_G),'all')/...
-%                  sqrt(sum(((B-mean_B).^2),'all').*sum(((circshift(G,[i,j])-mean_G).^2),'all'));
-%             score2=sum((B-mean_B).*(circshift(R,[i,j])-mean_R),'all')/...
-%                  sqrt(sum(((B-mean_B).^2),'all').*sum(((circshift(R,[i,j])-mean_R).^2),'all'));
-            if score1<max1
+            score1=sum((B-mean_B).*(circshift(G,[i,j])-mean_G),'all')/...
+                 sqrt(sum(((B-mean_B).^2),'all').*sum(((circshift(G,[i,j])-mean_G).^2),'all'));
+            score2=sum((B-mean_B).*(circshift(R,[i,j])-mean_R),'all')/...
+                 sqrt(sum(((B-mean_B).^2),'all').*sum(((circshift(R,[i,j])-mean_R).^2),'all'));
+            if score1>max1
                 max1 = score1;
                 temp1=[i,j];
             end
-            if score2<max2
+            if score2>max2
                 max2 = score2;
                 temp2 = [i,j];
             end
