@@ -1,0 +1,320 @@
+<!doctype html>
+<html>
+<head>
+  <style>body{font-family:verdana;padding-left:15%;padding-right:15%;}h3{text-align:center;}</style>
+</head>
+<body>
+<h3>CS 194-26 Project 3: Face Morphing</h3>
+<h5 style="text-align:center">2020 October 11, cs194-26 (Kecheng Chen)</h5>
+<h4>Part 1: Defining Correspondences</h4>
+<p>I have two original images as following.</p>
+
+<div align="center">
+	<table style="width=100%">
+		<tr>
+			<td align="middle">
+            <img src="A.jpg" width="160px" />
+            <figcaption align="middle">My photo</figcaption>
+            <br>
+            <td align="middle">
+            <img src="B.jpg" width="160px" />
+            <figcaption align="middle">George</figcaption>
+            <br>
+        </tr>
+    </table>
+</div>
+
+<p>I used the cpselect (matlab) tool to define pairs of corresponding points on the two images by hand. Also, I used dalaunay function to generate Delaunay triangulation.</p>
+
+<div align="center">
+	<table style="width=100%">
+		<tr>
+            <td align="middle">
+            <img src="1.jpg" width="350px" />
+            <figcaption align="middle">Corresponding points</figcaption>
+            <br>
+            <td align="middle">
+            <img src="2.jpg" width="160px" />
+            <figcaption align="middle">Triangulation1</figcaption>
+            <br>
+            <td align="middle">
+            <img src="3.jpg" width="160px" />
+            <figcaption align="middle">Triangulation2</figcaption>
+            <br>
+        </tr>
+    </table>
+</div>
+
+<p>The triangulation at midway shape is computed for the following processing.</p>
+
+<div align="center">
+    <table style="width=100%">
+        <tr>
+            <td align="middle">
+            <img src="4.jpg" width="260px" />
+            <figcaption align="middle">Triangulation at midway shape</figcaption>
+            <br>
+        </tr>
+    </table>
+</div>
+
+<h4>Part 2: Computing the "Mid-way Face"</h4>
+<p>I computed average location of keypoint pairs to get average shape, which is shown as the above. There are 6 unknown parameters in the affine matrix, so vertexes of triangulation at midway shape and the corresponding triangulation in two orginal images are used. roipoly function is used to get pixel points in each triangulation. Then use the affine matrix to transform the pixel points' locations(meshgrid). interp2 function is used to do bilinear Interpolation based on two orginal image matrices. Then two warped images (warp to the middle shape) are got. Compute the average color to get "Mid-way Face".</p>
+
+<div align="center">
+	<table style="width=100%">
+		<tr>
+            <td align="middle">
+            <img src="5.jpg" width="160px" />
+            <figcaption align="middle">warp1</figcaption>
+            <br>
+            <td align="middle">
+            <img src="6.jpg" width="160px" />
+            <figcaption align="middle">warp2</figcaption>
+            <br>
+            <td align="middle">
+            <img src="7.jpg" width="160px" />
+            <figcaption align="middle">Mid-way Face</figcaption>
+            <br>
+        </tr>
+    </table>
+</div>
+
+
+<h4>Part 3: The Morph Sequence</h4>
+<p>Two parameters warp_frac and dissolve_frac are kept the same to generate the morphing process. The way to write the image morphing function is the same as the part 2.</p>
+
+<div align="center">
+	<table style="width=100%">
+		<tr>
+            <td align="middle">
+            <img src="1.gif" width="250px" />
+            <figcaption align="middle">Morph Sequence</figcaption>
+            <br>
+        </tr>
+    </table>
+</div>
+
+<h4>Part 4: The "Mean face" of a population</h4>
+<p>Here I used face images and corresponding keypoints from FEI Face Database. Portrait datasets with and without smile both have 200 images. </p>
+<div align="center">
+	<table style="width=100%">
+		<tr>
+            <td align="middle">
+            <img src="8.jpg" width="220px" />
+            <figcaption align="middle">Face without smile</figcaption>
+            <br>
+            <td align="middle">
+            <img src="9.jpg" width="220px" />
+            <figcaption align="middle">Face with smile</figcaption>
+            <br>
+        </tr>
+    </table>
+</div>
+
+<p>I computed the average smile face shape (contain both man and woman).</p>
+<div align="center">
+	<table style="width=100%">
+		<tr>
+			<td align="middle">
+            <img src="10.jpg" width="350px" />
+            <figcaption align="middle">Average smile face shape</figcaption>
+            <br>
+        </tr>
+    </table>
+</div>
+
+<p>Then morph each of the faces in the dataset into the average shape.</p>
+
+<div align="center">
+	<table style="width=100%">
+		<tr>
+			<td align="middle">
+            <img src="100b_org.jpg" width="160px" />
+            <figcaption align="middle">Org1</figcaption>
+            <br>
+            <td align="middle">
+            <img src="100b.jpg" width="160px" />
+            <figcaption align="middle">Morph1</figcaption>
+            <br>
+            <td align="middle">
+            <img src="101b_org.jpg" width="160px" />
+            <figcaption align="middle">Org2</figcaption>
+            <br>
+            <td align="middle">
+            <img src="101b.jpg" width="160px" />
+            <figcaption align="middle">Morph2</figcaption>
+            <br>
+        </tr>
+    </table>
+</div>
+
+<div align="center">
+    <table style="width=100%">
+        <tr>
+            <td align="middle">
+            <img src="102b_org.jpg" width="160px" />
+            <figcaption align="middle">Org3</figcaption>
+            <br>
+            <td align="middle">
+            <img src="102b.jpg" width="160px" />
+            <figcaption align="middle">Morph3</figcaption>
+            <br>
+            <td align="middle">
+            <img src="103b_org.jpg" width="160px" />
+            <figcaption align="middle">Org4</figcaption>
+            <br>
+            <td align="middle">
+            <img src="103b.jpg" width="160px" />
+            <figcaption align="middle">Morph4</figcaption>
+            <br>
+        </tr>
+    </table>
+</div>
+
+<div align="center">
+    <table style="width=100%">
+        <tr>
+            <td align="middle">
+            <img src="104b_org.jpg" width="160px" />
+            <figcaption align="middle">Org5</figcaption>
+            <br>
+            <td align="middle">
+            <img src="104b.jpg" width="160px" />
+            <figcaption align="middle">Morph5</figcaption>
+            <br>
+        </tr>
+    </table>
+</div>
+
+<p>For the the average face of the population, i first did the naive average. The effect is pretty bad.</p>
+
+<div align="center">
+	<table style="width=100%">
+		<tr>
+			<td align="middle">
+            <img src="11.jpg" width="160px" />
+            <figcaption align="middle">Naive average smile face</figcaption>
+            <br>
+            <td align="middle">
+            <img src="12.jpg" width="160px" />
+            <figcaption align="middle">Naive average no smile face</figcaption>
+            <br>
+        </tr>
+    </table>
+</div>
+
+<p>Then i computed the average after morphing. The effect is much better.</p>
+
+<div align="center">
+	<table style="width=100%">
+		<tr>
+			<td align="middle">
+            <img src="13.jpg" width="160px" />
+            <figcaption align="middle">Average smile face</figcaption>
+            <br>
+			<td align="middle">
+            <img src="14.jpg" width="160px" />
+            <figcaption align="middle">Average no smile face</figcaption>
+            <br>
+        </tr>
+    </table>
+</div>
+
+<p>Then I warped my face into the average geometry, and warped the average face into my geometry.</p>
+
+<div align="center">
+	<table style="width=100%">
+		<tr>
+			<td align="middle">
+            <img src="15.jpg" width="350px" />
+            <figcaption align="middle">Keypoints</figcaption>
+            <br>
+            <td align="middle">
+            <img src="I_to_mid.jpg" width="160px" />
+            <figcaption align="middle">My face to average</figcaption>
+            <br>
+            <td align="middle">
+            <img src="mid_to_I.jpg" width="160px" />
+            <figcaption align="middle">Average to mine</figcaption>
+            <br>
+        </tr>
+    </table>
+</div>
+
+<h4>Part 5: Caricatures: Extrapolating from the mean</h4>
+<p>I did the extrapolation from the population mean, using the function alpha*my_face_shape+(1-alpha)*average_face_shape, where alpha is larger than 1 or smaller than 0.</p>
+
+<div align="center">
+    <table style="width=100%">
+        <tr>
+            <td align="middle">
+            <img src="alpha_-0.5.jpg" width="160px" />
+            <figcaption align="middle">alpha=-0.5</figcaption>
+            <br>
+            <td align="middle">
+            <img src="alpha_-0.2.jpg" width="160px" />
+            <figcaption align="middle">alpha=-0.2</figcaption>
+            <br>
+            <td align="middle">
+            <img src="alpha_2.jpg" width="160px" />
+            <figcaption align="middle">alpha=2</figcaption>
+            <br>
+            <td align="middle">
+            <img src="alpha_3.jpg" width="160px" />
+            <figcaption align="middle">alpha=3</figcaption>
+            <br>
+        </tr>
+    </table>
+</div>
+
+<h4>Part 6: Bells and Whistles</h4>
+<p>I took three Trump's images from different ages to make a morphing gif. I defined two groups of keypoints for each pair.</p>
+<div align="center">
+    <table style="width=100%">
+        <tr>
+            <td align="middle">
+            <img src="trump1.jpg" width="160px" />
+            <figcaption align="middle">Trump1</figcaption>
+            <br>
+            <td align="middle">
+            <img src="trump2.jpg" width="160px" />
+            <figcaption align="middle">Trump2</figcaption>
+            <br>
+            <td align="middle">
+            <img src="trump3.jpg" width="160px" />
+            <figcaption align="middle">Trump3</figcaption>
+            <br>
+            <td align="middle">
+            <img src="tru.jpg" width="250px" />
+            <figcaption align="middle">Keypoints</figcaption>
+            <br>
+        </tr>
+    </table>
+</div>
+
+<div align="center">
+    <table style="width=100%">
+        <tr>
+            <td align="middle">
+            <img src="2.gif" width="260px" />
+            <figcaption align="middle">Trump age progressing</figcaption>
+            <br>
+        </tr>
+    </table>
+</div>
+
+<p>I used 200 no smile images to form a matrix, rescale the matrix and did PCA. First 6 columns of left eigenvector matrix is shown below. First one should represent the background. Eigenvalues are decreasing correspondingly. Sum of the first six eigenvlues is only 38.03% sum of all eigenvalues. It needs more than 170 eigenvalues so that the sum would be larger than 95%</p>
+
+<div align="center">
+    <table style="width=100%">
+        <tr>
+            <td align="middle">
+            <img src="66.jpg" width="360px" />
+            <figcaption align="middle">First 6 columns of matrix U</figcaption>
+            <br>
+        </tr>
+    </table>
+</div>
+
+            
