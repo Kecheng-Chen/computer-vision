@@ -1,0 +1,394 @@
+<!doctype html>
+<html>
+<head>
+  <style>body{font-family:verdana;padding-left:15%;padding-right:15%;}h3{text-align:center;}</style>
+</head>
+<body>
+<h3>CS 194-26 Project 4: Facial Keypoint Detection with Neural Networks</h3>
+<h5 style="text-align:center">2020 Nov 01, cs194-26 (Kecheng Chen)</h5>
+<h4>Part 1: Nose Tip Detection</h4>
+<p>From the IMM Face Database, 192 images are used for training and 48 images are used for validation. I used skimage.color.rgb2gray function to convert images to grayscale in range from 0 to 1. Then minus 0.5 from the image matrix to get float values from -0.5 to 0.5. Resize images to 54*70. Some images with ground truth keypoint from my dataloader are shown below. Parameters of loader are set as batch=1, shuffle=False, num_workers=1.</p>
+
+<div align="center">
+	<table style="width=100%">
+		<tr>
+			<td align="middle">
+            <img src="1_1.png" width="160px" />
+            <br>
+            <td align="middle">
+            <img src="1_2.png" width="160px" />
+            <br>
+            <td align="middle">
+            <img src="1_3.png" width="160px" />
+            <br>
+            <td align="middle">
+            <img src="1_4.png" width="160px" />
+            <br>
+        </tr>
+    </table>
+</div>
+
+<div align="center">
+	<table style="width=100%">
+		<tr>
+			<td align="middle">
+            <img src="2_1.png" width="160px" />
+            <br>
+            <td align="middle">
+            <img src="2_2.png" width="160px" />
+            <br>
+            <td align="middle">
+            <img src="2_3.png" width="160px" />
+            <br>
+            <td align="middle">
+            <img src="2_4.png" width="160px" />
+            <br>
+        </tr>
+    </table>
+</div>
+
+<p>My neural network has 3 convolutional layers, 12-32 channels each, and 2 fully connected layers. The kernel sizes are 7x7, 5x5 and 3x3. Each convolutional layer is followed by a ReLU followed by a maxpool. Loss function is mean squared error loss. Adam algorithm is implemented. Learning rate is 1e-3. Training loop is 25 epoches.</p>
+
+<div align="center">
+	<table style="width=100%">
+		<tr>
+			<td align="middle">
+            <img src="pa2.jpg" width="400px" />
+            <br>
+        </tr>
+    </table>
+</div>
+
+<div align="center">
+	<table style="width=100%">
+		<tr>
+            <td align="middle">
+            <img src="1.png" width="400px" />
+            <figcaption align="middle">Loss Curve</figcaption>
+        </tr>
+    </table>
+</div>
+
+<p>For the images shown below, first and second rows are correct and incorrect keypoint prediction results respectively. I think the reason why it fails in some cases is because there are some shifts and rotation of faces are not learned in the training. Also, there are some complexed facial expressions in the validation dataset.</p>
+
+<div align="center">
+	<table style="width=100%">
+		<tr>
+			<td align="middle">
+            <img src="co_1.png" width="160px" />
+            <br>
+            <td align="middle">
+            <img src="co_2.png" width="160px" />
+            <br>
+            <td align="middle">
+            <img src="co_3.png" width="160px" />
+            <br>
+            <td align="middle">
+            <img src="co_4.png" width="160px" />
+            <br>
+        </tr>
+    </table>
+</div>
+
+<div align="center">
+	<table style="width=100%">
+		<tr>
+			<td align="middle">
+            <img src="in_1.png" width="160px" />
+            <br>
+            <td align="middle">
+            <img src="in_2.png" width="160px" />
+            <br>
+            <td align="middle">
+            <img src="in_3.png" width="160px" />
+            <br>
+            <td align="middle">
+            <img src="in_4.png" width="160px" />
+            <br>
+        </tr>
+    </table>
+</div>
+
+<h4>Part 2: Full Facial Keypoints Detection</h4>
+<p>Resize images to 160*120. Data augmentation is done in this part. The brightness and saturation of the resized face is randomly changed. Besides, the face is randomly rotated from -15 to 15 degrees. Some images with ground truth keypoint from my dataloader are shown below.</p>
+
+<div align="center">
+	<table style="width=100%">
+		<tr>
+			<td align="middle">
+            <img src="21_1.png" width="160px" />
+            <br>
+            <td align="middle">
+            <img src="21_2.png" width="160px" />
+            <br>
+            <td align="middle">
+            <img src="21_3.png" width="160px" />
+            <br>
+            <td align="middle">
+            <img src="21_4.png" width="160px" />
+            <br>
+        </tr>
+    </table>
+</div>
+
+<p>My neural network has 5 convolutional layers and 2 fully connected layers. The kernel sizes are from 7x7 to 3x3. Each convolutional layer is followed by a ReLU followed by a maxpool. Loss function is mean squared error loss. Adam algorithm is implemented. Learning rate is 1e-3. Training loop is 25 epoches.</p>
+
+<div align="center">
+	<table style="width=100%">
+		<tr>
+			<td align="middle">
+            <img src="pa.jpg" width="400px" />
+            <br>
+        </tr>
+    </table>
+</div>
+
+<div align="center">
+	<table style="width=100%">
+		<tr>
+			<td align="middle">
+            <img src="2.png" width="400px" />
+            <br>
+        </tr>
+    </table>
+</div>
+
+<p>I think the reason why it fails in some cases is because the number of epoches are too small for getting optimized parameters. Also the structure of network is also too simple to learn high-level features.</p>
+
+<div align="center">
+	<table style="width=100%">
+		<tr>
+			<td align="middle">
+            <img src="coo_`.png" width="160px" />
+            <br>
+            <td align="middle">
+            <img src="coo_2.png" width="160px" />
+            <br>
+        </tr>
+    </table>
+</div>
+
+<div align="center">
+	<table style="width=100%">
+		<tr>
+			<td align="middle">
+            <img src="fa_1.png" width="160px" />
+            <br>
+            <td align="middle">
+            <img src="fa_2.png" width="160px" />
+            <br>
+        </tr>
+    </table>
+</div>
+
+<p>I randomly selected two learned filters for each conv layer.</p>
+
+<div align="center">
+	<table style="width=100%">
+		<tr>
+			<td align="middle">
+            <img src="first_layer1.png" width="160px" />
+            <figcaption align="middle">First conv layer1</figcaption>
+            <br>
+            <td align="middle">
+            <img src="first_layer2.png" width="160px" />
+            <figcaption align="middle">First conv layer2</figcaption>
+            <br>
+            <td align="middle">
+            <img src="second_layer1.png" width="160px" />
+            <figcaption align="middle">Second conv layer1</figcaption>
+            <br>
+            <td align="middle">
+            <img src="second_layer2.png" width="160px" />
+            <figcaption align="middle">Second conv layer1</figcaption>
+            <br>
+        </tr>
+    </table>
+</div>
+<div align="center">
+	<table style="width=100%">
+		<tr>
+			<td align="middle">
+            <img src="third_layer1.png" width="160px" />
+            <figcaption align="middle">Third conv layer1</figcaption>
+            <br>
+            <td align="middle">
+            <img src="third_layer2.png" width="160px" />
+            <figcaption align="middle">Third conv layer1</figcaption>
+            <br>
+            <td align="middle">
+            <img src="fourth_layer1.png" width="160px" />
+            <figcaption align="middle">Fourth conv layer1</figcaption>
+            <br>
+            <td align="middle">
+            <img src="fourth_layer2.png" width="160px" />
+            <figcaption align="middle">Fourth conv layer1</figcaption>
+            <br>
+        </tr>
+    </table>
+</div>
+<div align="center">
+	<table style="width=100%">
+		<tr>
+			<td align="middle">
+            <img src="fifth_layer1.png" width="160px" />
+            <figcaption align="middle">Fifth conv layer1</figcaption>
+            <br>
+            <td align="middle">
+            <img src="fifth_layer2.png" width="160px" />
+            <figcaption align="middle">Fifth conv layer1</figcaption>
+            <br>
+        </tr>
+    </table>
+</div>
+
+<h4>Part 3: Train With Larger Dataset</h4>
+<p>The mean absolute error of my prediction (45 epoches training) is 7.12485.</p>
+
+<div align="center">
+	<table style="width=100%">
+		<tr>
+            <td align="middle">
+            <img src="result.jpg" width="600px" />
+            <br>
+        </tr>
+    </table>
+</div>
+
+<p>The crop is resized into 224x224. Some images from dataloader is shown below, where batch_size=1, shuffle=True, num_workers=4.</p>
+<div align="center">
+	<table style="width=100%">
+		<tr>
+			<td align="middle">
+            <img src="pro3_1.png" width="160px" />
+            <br>
+            <td align="middle">
+            <img src="pro3_2.png" width="160px" />
+            <br>
+            <td align="middle">
+            <img src="pro3_3.png" width="160px" />
+            <br>
+        </tr>
+    </table>
+</div>
+
+
+<p>At first when i did the data augment, i tried flipping images. The loss is pretty large and result is not good. I think the reason is that the left and right part of the face is somewhat different, so it would be hard to learn features of face when flipping it. ResNet18 model with pretrained parameters is used for training. In my training process, i did not separate the dataset to be training and validation dataset for me to do the hyperparameter selection. For the first layer, I changed the input channel to be 1. Ohter parameters of the first layer are kernel_size=(7, 7), stride=(2, 2), padding=(3, 3), bias=False. The output channel number is set to be 68*2=136. Bias is set to be True. Other hyperparameters are set as the default. The number of epoches is set to be 50. I showed the loss curve of the first and the last five epoches below.</p>
+
+<div align="center">
+	<table style="width=100%">
+		<tr>
+			<td align="middle">
+            <img src="loss_curve1.png" width="400px" />
+            <figcaption align="middle">Loss curve of the first five epoches</figcaption>
+            <br>
+        </tr>
+    </table>
+</div>
+
+<div align="center">
+	<table style="width=100%">
+		<tr>
+            <td align="middle">
+            <img src="loss_curve2.png" width="400px" />
+            <figcaption align="middle">Loss curve of the last five epoches</figcaption>
+            <br>
+        </tr>
+    </table>
+</div>
+
+<p>Some images with the keypoints prediction in the testing set.</p>
+
+<div align="center">
+	<table style="width=100%">
+		<tr>
+			<td align="middle">
+            <img src="test1.png" width="200px" />
+            <br>
+            <td align="middle">
+            <img src="test12.png" width="240px" />
+            <br>
+            <td align="middle">
+            <img src="test2.png" width="200px" />
+            <br>
+            <td align="middle">
+            <img src="test21.png" width="180px" />
+            <br>
+        </tr>
+    </table>
+</div>
+
+<div align="center">
+	<table style="width=100%">
+		<tr>
+			<td align="middle">
+            <img src="test3.png" width="200px" />
+            <br>
+            <td align="middle">
+            <img src="test31.png" width="200px" />
+            <br>
+            <td align="middle">
+            <img src="test4.png" width="200px" />
+            <br>
+            <td align="middle">
+            <img src="test41.png" width="200px" />
+            <br>
+        </tr>
+    </table>
+</div>
+
+<div align="center">
+	<table style="width=100%">
+		<tr>
+			<td align="middle">
+            <img src="test5.png" width="200px" />
+            <br>
+            <td align="middle">
+            <img src="test51.png" width="200px" />
+            <br>
+            <td align="middle">
+            <img src="test6.png" width="200px" />
+            <br>
+            <td align="middle">
+            <img src="test61.png" width="200px" />
+            <br>
+        </tr>
+    </table>
+</div>
+
+<p>Then run the trained model on my dataset.</p>
+
+<div align="center">
+	<table style="width=100%">
+		<tr>
+			<td align="middle">
+            <img src="trump1.jpg" width="160px" />
+			<td align="middle">
+            <img src="trump2.png" width="200px" />
+        </tr>
+    </table>
+</div>
+
+<div align="center">
+	<table style="width=100%">
+		<tr>
+			<td align="middle">
+            <img src="my_face.jpg" width="160px" />
+			<td align="middle">
+            <img src="my_face2.png" width="200px" />
+        </tr>
+    </table>
+</div>
+
+<div align="center">
+	<table style="width=100%">
+		<tr>
+			<td align="middle">
+            <img src="homelander.jpg" width="160px" />
+			<td align="middle">
+            <img src="homelander2.png" width="200px" />
+        </tr>
+    </table>
+</div>
+
+<p>It performs good on Trump's face, but fails on my face and homelander's face.</p>
